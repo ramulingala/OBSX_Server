@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
-import org.mifosplatform.billing.currency.data.CountryCurrencyData;
+import org.mifosplatform.billing.currencyexchange.data.CurrencyExchangeData;
 import org.mifosplatform.infrastructure.codes.data.CodeValueData;
 import org.mifosplatform.organisation.monetary.data.ApplicationCurrencyConfigurationData;
 import org.mifosplatform.organisation.office.data.OfficeData;
@@ -39,7 +39,7 @@ public class PartnersData {
 	private Collection<CodeValueData> officeTypes;
 	private ApplicationCurrencyConfigurationData currencyData;
 	private Collection<OfficeData> allowedParents;
-	private Collection<CountryCurrencyData> configCurrency;
+	private Collection<CurrencyExchangeData> configCurrency;
 	private List<AgreementData> agreementData;
 	private String officeNumber;
 	private String contactName;
@@ -51,7 +51,7 @@ public class PartnersData {
 	public PartnersData(List<String> countryData, List<String> statesData,
 			List<String> citiesData, Collection<CodeValueData> officeTypes,
 			ApplicationCurrencyConfigurationData currencyData, Collection<OfficeData> allowedParents,
-			Collection<CountryCurrencyData> configCurrency) {
+			Collection<CurrencyExchangeData> configCurrency) {
 
 		this.citiesData = citiesData;
 		this.currencyData = currencyData;
@@ -214,7 +214,7 @@ public class PartnersData {
 		return agreementData;
 	}
 
-	public Collection<CountryCurrencyData> getConfigCurrency() {
+	public Collection<CurrencyExchangeData> getConfigCurrency() {
 		return configCurrency;
 	}
 	
@@ -223,7 +223,7 @@ public class PartnersData {
 	}
 
 
-	public void setConfigCurrency(Collection<CountryCurrencyData> configCurrency) {
+	public void setConfigCurrency(Collection<CurrencyExchangeData> configCurrency) {
 		this.configCurrency = configCurrency;
 	}
 

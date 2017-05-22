@@ -323,7 +323,7 @@ public class ClientReadPlatformServiceImpl implements ClientReadPlatformService 
             builder.append(" left outer join b_group g on  g.id = c.group_id ");
             builder.append(" left outer join  m_code_value mc on  mc.id =c.category_type  ");
             builder.append(" left outer join b_client_address a on  a.client_id = c.id ");
-            builder.append(" left outer join b_country_currency bc on  bc.country = a.country ");
+            builder.append(" left outer join b_currency_exchange bc on  bc.country = a.country ");
             builder.append(" left outer join b_allocation ba on (c.id = ba.client_id AND ba.is_deleted = 'N')");
             builder.append(" left outer join b_owned_hardware oh on (c.id=oh.client_id  AND oh.is_deleted = 'N')");
             builder.append(" left outer join b_clientuser cu on cu.client_id = c.id ");

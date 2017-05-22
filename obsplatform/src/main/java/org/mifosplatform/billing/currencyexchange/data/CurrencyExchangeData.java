@@ -1,4 +1,4 @@
-package org.mifosplatform.billing.currency.data;
+package org.mifosplatform.billing.currencyexchange.data;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -10,7 +10,7 @@ import org.mifosplatform.organisation.monetary.data.ApplicationCurrencyConfigura
  * @author hugo
  * 
  */
-public class CountryCurrencyData {
+public class CurrencyExchangeData {
 
 	private Long id;
 	private String country;
@@ -23,7 +23,7 @@ public class CountryCurrencyData {
 	private List<String> countryData;
 	private List<EnumOptionData> statusData;
 
-	public CountryCurrencyData(final Long id, final String country,
+	public CurrencyExchangeData(final Long id, final String country,
 			final String currency, final String baseCurrency,
 			final BigDecimal conversionRate, final String status, final String countryISD) {
 
@@ -37,7 +37,7 @@ public class CountryCurrencyData {
 
 	}
 
-	public CountryCurrencyData(final CountryCurrencyData currencyData,
+	public CurrencyExchangeData(final CurrencyExchangeData currencyData,
 			final ApplicationCurrencyConfigurationData currency,
 			final List<String> countryData,
 			final List<EnumOptionData> statusData) {

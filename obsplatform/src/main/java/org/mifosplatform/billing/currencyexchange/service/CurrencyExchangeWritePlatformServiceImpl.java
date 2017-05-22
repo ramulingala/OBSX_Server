@@ -1,13 +1,13 @@
-package org.mifosplatform.billing.currency.service;
+package org.mifosplatform.billing.currencyexchange.service;
 
 import java.util.Map;
 
 import org.hibernate.exception.ConstraintViolationException;
 import org.mifosplatform.billing.chargecode.service.ChargeCodeWritePlatformServiceImp;
-import org.mifosplatform.billing.currency.domain.CountryCurrency;
-import org.mifosplatform.billing.currency.domain.CountryCurrencyRepository;
-import org.mifosplatform.billing.currency.exception.DuplicateCurrencyConfigurationException;
-import org.mifosplatform.billing.currency.serialization.CountryCurrencyCommandFromApiJsonDeserializer;
+import org.mifosplatform.billing.currencyexchange.domain.CurrencyExchange;
+import org.mifosplatform.billing.currencyexchange.domain.CurrencyExchangeRepository;
+import org.mifosplatform.billing.currencyexchange.exception.DuplicateCurrencyConfigurationException;
+import org.mifosplatform.billing.currencyexchange.serialization.CurrencyExchangeCommandFromApiJsonDeserializer;
 import org.mifosplatform.infrastructure.core.api.JsonCommand;
 import org.mifosplatform.infrastructure.core.data.CommandProcessingResult;
 import org.mifosplatform.infrastructure.core.data.CommandProcessingResultBuilder;
@@ -25,21 +25,21 @@ import org.springframework.transaction.annotation.Transactional;
  * 
  */
 @Service
-public class CountryCurrencyWritePlatformServiceImpl implements CountryCurrencyWritePlatformService {
+public class CurrencyExchangeWritePlatformServiceImpl implements CurrencyExchangeWritePlatformService {
 
 	private final static Logger LOGGER = LoggerFactory.getLogger(ChargeCodeWritePlatformServiceImp.class);
 	private final PlatformSecurityContext context;
-	private final CountryCurrencyCommandFromApiJsonDeserializer fromApiJsonDeserializer;
-	private final CountryCurrencyRepository countryCurrencyRepository;
+	private final CurrencyExchangeCommandFromApiJsonDeserializer fromApiJsonDeserializer;
+	private final CurrencyExchangeRepository currecnyExchangeRepository;
 
 	@Autowired
-	public CountryCurrencyWritePlatformServiceImpl(final PlatformSecurityContext context,
-			final CountryCurrencyCommandFromApiJsonDeserializer apiJsonDeserializer,
-			final CountryCurrencyRepository countryCurrencyRepository) {
+	public CurrencyExchangeWritePlatformServiceImpl(final PlatformSecurityContext context,
+			final CurrencyExchangeCommandFromApiJsonDeserializer apiJsonDeserializer,
+			final CurrencyExchangeRepository currecnyExchangeRepository) {
 
 		this.context = context;
 		this.fromApiJsonDeserializer = apiJsonDeserializer;
-		this.countryCurrencyRepository = countryCurrencyRepository;
+		this.currecnyExchangeRepository = currecnyExchangeRepository;
 	}
 
 	/*
@@ -51,14 +51,14 @@ public class CountryCurrencyWritePlatformServiceImpl implements CountryCurrencyW
 	 */
 	@Transactional
 	@Override
-	public CommandProcessingResult createCountryCurrency(final JsonCommand command) {
+	public CommandProcessingResult createCurrencyExchange(final JsonCommand command) {
 
 		try {
 
 			this.context.authenticatedUser();
 			this.fromApiJsonDeserializer.validateForCreate(command.json());
-			final CountryCurrency countryCurrency = CountryCurrency.fromJson(command);
-			this.countryCurrencyRepository.save(countryCurrency);
+			final CurrencyExchange countryCurrency = CurrencyExchange.fromJson(command);
+			this.currecnyExchangeRepository.save(countryCurrency);
 			return new CommandProcessingResult(countryCurrency.getId());
 
 		} catch (final DataIntegrityViolationException dve) {
@@ -105,14 +105,14 @@ public class CountryCurrencyWritePlatformServiceImpl implements CountryCurrencyW
 	 */
 	@Transactional
 	@Override
-	public CommandProcessingResult updateCountryCurrency(final Long entityId,final JsonCommand command) {
+	public CommandProcessingResult updateCurrencyExchange(final Long entityId,final JsonCommand command) {
 		try {
 			this.context.authenticatedUser();
 			this.fromApiJsonDeserializer.validateForCreate(command.json());
-			final CountryCurrency countryCurrency = retrieveCodeById(entityId);
+			final CurrencyExchange countryCurrency = retrieveCodeById(entityId);
 			final Map<String, Object> changes = countryCurrency.update(command);
 			if (!changes.isEmpty()) {
-				this.countryCurrencyRepository.saveAndFlush(countryCurrency);
+				this.currecnyExchangeRepository.saveAndFlush(countryCurrency);
 			}
 			return new CommandProcessingResultBuilder().withCommandId(command.commandId())
 					.withEntityId(countryCurrency.getId()).with(changes)
@@ -133,17 +133,17 @@ public class CountryCurrencyWritePlatformServiceImpl implements CountryCurrencyW
 	 */
 	@Transactional
 	@Override
-	public CommandProcessingResult deleteCountryCurrency(final Long entityId) {
+	public CommandProcessingResult deleteCurrencyExchange(final Long entityId) {
 
 		this.context.authenticatedUser();
-		final CountryCurrency countryCurrency = retrieveCodeById(entityId);
+		final CurrencyExchange countryCurrency = retrieveCodeById(entityId);
 		countryCurrency.delete();
-		this.countryCurrencyRepository.save(countryCurrency);
+		this.currecnyExchangeRepository.save(countryCurrency);
 		return new CommandProcessingResultBuilder().withEntityId(entityId).build();
 	}
 
-	private CountryCurrency retrieveCodeById(final Long currencyConfigId) {
-		final CountryCurrency countryCurrency = this.countryCurrencyRepository.findOne(currencyConfigId);
+	private CurrencyExchange retrieveCodeById(final Long currencyConfigId) {
+		final CurrencyExchange countryCurrency = this.currecnyExchangeRepository.findOne(currencyConfigId);
 		if (countryCurrency == null) {
 			throw new DuplicateCurrencyConfigurationException(currencyConfigId);
 		}

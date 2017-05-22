@@ -32,6 +32,19 @@ public class ApplicationCurrency extends AbstractPersistable<Long> {
 
 	@Column(name = "display_symbol", nullable = true, length = 10)
 	private final String displaySymbol;
+	
+	@Column(name = "type", nullable = true, length = 45)
+	private final String type;
+	
+	@Column(name = "country_code", nullable = true, length = 45)
+	private final String countryCode;
+	
+	@Column(name = "country_name", nullable = true, length = 45)
+	private final String countryName;
+	
+	@Column(name = "resource_id", nullable = true, length = 45)
+	private final Long resourceId;
+	
 
 	protected ApplicationCurrency() {
 		this.code = null;
@@ -39,22 +52,34 @@ public class ApplicationCurrency extends AbstractPersistable<Long> {
 		this.decimalPlaces = null;
 		this.nameCode = null;
 		this.displaySymbol = null;
+		this.type = null;
+		this.countryCode = null;
+		this.countryName = null;
+		this.resourceId = null;
 	}
 
 	public static ApplicationCurrency from(final ApplicationCurrency currency,
 			final int decimalPlaces) {
+		
 		return new ApplicationCurrency(currency.code, currency.name,
-				decimalPlaces, currency.nameCode, currency.displaySymbol);
+				decimalPlaces, currency.nameCode, currency.displaySymbol,
+				currency.type,currency.countryCode,
+				currency.countryName,currency.resourceId);
 	}
 
 	private ApplicationCurrency(final String code, final String name,
 			final int decimalPlaces, final String nameCode,
-			final String displaySymbol) {
+			final String displaySymbol,final String type ,final String countryCode,
+	        final String countryName,final Long resourceId) {
 		this.code = code;
 		this.name = name;
 		this.decimalPlaces = decimalPlaces;
 		this.nameCode = nameCode;
 		this.displaySymbol = displaySymbol;
+		this.type = type;
+		this.countryCode = countryCode;
+        this.countryName = countryName;
+        this.resourceId = resourceId;
 	}
 
 	public String getCode() {
@@ -75,6 +100,22 @@ public class ApplicationCurrency extends AbstractPersistable<Long> {
 
 	public String getDisplaySymbol() {
 		return displaySymbol;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public String getCountryCode() {
+		return countryCode;
+	}
+
+	public String getCountryName() {
+		return countryName;
+	}
+
+	public Long getResourceId() {
+		return resourceId;
 	}
 
 	public CurrencyData toData() {

@@ -39,6 +39,7 @@ public class CurrencyWritePlatformServiceJpaRepositoryImpl implements CurrencyWr
 			final CurrencyCommandFromApiJsonDeserializer fromApiJsonDeserializer,
 			final ApplicationCurrencyRepositoryWrapper applicationCurrencyRepository,
 			final OrganisationCurrencyRepository organisationCurrencyRepository) {
+		
 		this.context = context;
 		this.fromApiJsonDeserializer = fromApiJsonDeserializer;
 		this.applicationCurrencyRepository = applicationCurrencyRepository;
@@ -47,7 +48,75 @@ public class CurrencyWritePlatformServiceJpaRepositoryImpl implements CurrencyWr
 
 	@Transactional
 	@Override
+	public CommandProcessingResult createAllowedCurrencies(final JsonCommand command) {
+
+		context.authenticatedUser();
+
+		this.fromApiJsonDeserializer.validateForUpdate(command.json());
+
+		final String[] currencies = command.arrayValueOfParameterNamed("currencies");
+
+		final Map<String, Object> changes = new LinkedHashMap<String, Object>();
+		final List<String> allowedCurrencyCodes = new ArrayList<String>();
+		final Set<OrganisationCurrency> allowedCurrencies = new HashSet<OrganisationCurrency>();
+		for (final String currencyCode : currencies) {
+
+			final ApplicationCurrency currency = this.applicationCurrencyRepository.findOneWithNotFoundDetection(currencyCode);
+
+			final OrganisationCurrency allowedCurrency = currency.toOrganisationCurrency();
+
+			allowedCurrencyCodes.add(currencyCode);
+			allowedCurrencies.add(allowedCurrency);
+		}
+
+		changes.put("currencies", allowedCurrencyCodes.toArray(new String[allowedCurrencyCodes.size()]));
+
+		this.organisationCurrencyRepository.deleteAll();
+		this.organisationCurrencyRepository.save(allowedCurrencies);
+
+		return new CommandProcessingResultBuilder() //
+				.withCommandId(command.commandId()) //
+				.with(changes) //
+				.build();
+	}
+	
+	@Transactional
+	@Override
 	public CommandProcessingResult updateAllowedCurrencies(final JsonCommand command) {
+
+		context.authenticatedUser();
+
+		this.fromApiJsonDeserializer.validateForUpdate(command.json());
+
+		final String[] currencies = command.arrayValueOfParameterNamed("currencies");
+
+		final Map<String, Object> changes = new LinkedHashMap<String, Object>();
+		final List<String> allowedCurrencyCodes = new ArrayList<String>();
+		final Set<OrganisationCurrency> allowedCurrencies = new HashSet<OrganisationCurrency>();
+		for (final String currencyCode : currencies) {
+
+			final ApplicationCurrency currency = this.applicationCurrencyRepository.findOneWithNotFoundDetection(currencyCode);
+
+			final OrganisationCurrency allowedCurrency = currency.toOrganisationCurrency();
+
+			allowedCurrencyCodes.add(currencyCode);
+			allowedCurrencies.add(allowedCurrency);
+		}
+
+		changes.put("currencies", allowedCurrencyCodes.toArray(new String[allowedCurrencyCodes.size()]));
+
+		this.organisationCurrencyRepository.deleteAll();
+		this.organisationCurrencyRepository.save(allowedCurrencies);
+
+		return new CommandProcessingResultBuilder() //
+				.withCommandId(command.commandId()) //
+				.with(changes) //
+				.build();
+	}
+	
+	@Transactional
+	@Override
+	public CommandProcessingResult deleteAllowedCurrencies(final JsonCommand command) {
 
 		context.authenticatedUser();
 

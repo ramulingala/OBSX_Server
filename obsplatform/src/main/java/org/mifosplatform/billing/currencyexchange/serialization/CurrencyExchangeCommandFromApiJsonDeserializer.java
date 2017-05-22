@@ -1,4 +1,4 @@
-package org.mifosplatform.billing.currency.serialization;
+package org.mifosplatform.billing.currencyexchange.serialization;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -25,7 +25,7 @@ import com.google.gson.reflect.TypeToken;
  * Deserializer for code JSON to validate API request.
  */
 @Component
-public final class CountryCurrencyCommandFromApiJsonDeserializer {
+public final class CurrencyExchangeCommandFromApiJsonDeserializer {
 
 	/**
 	 * The parameters supported for this command.
@@ -35,7 +35,7 @@ public final class CountryCurrencyCommandFromApiJsonDeserializer {
 	private final FromJsonHelper fromApiJsonHelper;
 
 	@Autowired
-	public CountryCurrencyCommandFromApiJsonDeserializer(final FromJsonHelper fromApiJsonHelper) {
+	public CurrencyExchangeCommandFromApiJsonDeserializer(final FromJsonHelper fromApiJsonHelper) {
 		this.fromApiJsonHelper = fromApiJsonHelper;
 	}
 

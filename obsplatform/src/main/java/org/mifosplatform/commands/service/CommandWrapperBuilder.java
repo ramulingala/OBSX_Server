@@ -1530,7 +1530,7 @@ public class CommandWrapperBuilder {
 		return this;
 	}
 
-	public CommandWrapperBuilder createCountryCurrency() {
+	public CommandWrapperBuilder createCurrencyExchange() {
 		this.actionName = "CREATE";
 		this.entityName = "COUNTRYCURRENCY";
 		this.href = "/countrycurrency";
@@ -1562,7 +1562,7 @@ public class CommandWrapperBuilder {
 		return this;
 	}
 
-	public CommandWrapperBuilder updateCountryCurrency(Long id) {
+	public CommandWrapperBuilder updateCurrencyExchange(Long id) {
 		this.actionName = "UPDATE";
 		this.entityName = "COUNTRYCURRENCY";
 		this.entityId = id;
@@ -1570,7 +1570,7 @@ public class CommandWrapperBuilder {
 		return this;
 	}
 
-	public CommandWrapperBuilder deleteCountryCurrency(Long id) {
+	public CommandWrapperBuilder deleteCurrencyExchange(Long id) {
 		this.actionName = "DELETE";
 		this.entityName = "COUNTRYCURRENCY";
 		this.entityId = id;
@@ -2994,6 +2994,20 @@ public class CommandWrapperBuilder {
 		this.entityName = "BEESMARTCLIENT";
 		this.entityId = clientId;
 		this.href = "/beesmart";
+		return this;
+	}
+	
+	public CommandWrapperBuilder createCurrency() {
+		this.actionName = "CREATE";
+		this.entityName = "CURRENCY";
+		this.href = "/currencies";
+		return this;
+	}
+	
+	public CommandWrapperBuilder deleteCurrency() {
+		this.actionName = "DELETE";
+		this.entityName = "CURRENCY";
+		this.href = "/currencies";
 		return this;
 	}
 }

@@ -3,25 +3,23 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package org.mifosplatform.billing.currency.handler;
+package org.mifosplatform.organisation.monetary.handler;
 
-import org.mifosplatform.billing.currency.service.CountryCurrencyWritePlatformService;
 import org.mifosplatform.commands.handler.NewCommandSourceHandler;
 import org.mifosplatform.infrastructure.core.api.JsonCommand;
 import org.mifosplatform.infrastructure.core.data.CommandProcessingResult;
+import org.mifosplatform.organisation.monetary.service.CurrencyWritePlatformService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class UpdateCountryCurrencyCommandHandler implements
-		NewCommandSourceHandler {
+public class DeleteCurrencyCommandHandler implements NewCommandSourceHandler {
 
-	private final CountryCurrencyWritePlatformService writePlatformService;
+	private final CurrencyWritePlatformService writePlatformService;
 
 	@Autowired
-	public UpdateCountryCurrencyCommandHandler(
-			final CountryCurrencyWritePlatformService writePlatformService) {
+	public DeleteCurrencyCommandHandler(final CurrencyWritePlatformService writePlatformService) {
 		this.writePlatformService = writePlatformService;
 	}
 
@@ -29,7 +27,6 @@ public class UpdateCountryCurrencyCommandHandler implements
 	@Override
 	public CommandProcessingResult processCommand(final JsonCommand command) {
 
-		return this.writePlatformService.updateCountryCurrency(
-				command.entityId(), command);
+		return this.writePlatformService.updateAllowedCurrencies(command);
 	}
 }

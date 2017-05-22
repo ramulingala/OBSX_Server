@@ -1,4 +1,4 @@
-package org.mifosplatform.billing.currency.service;
+package org.mifosplatform.billing.currencyexchange.service;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.Collection;
 import java.util.List;
 
-import org.mifosplatform.billing.currency.data.CountryCurrencyData;
+import org.mifosplatform.billing.currencyexchange.data.CurrencyExchangeData;
 import org.mifosplatform.infrastructure.core.service.TenantAwareRoutingDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,12 +19,12 @@ import org.springframework.stereotype.Service;
  * 
  */
 @Service
-public class CountryCurrencyReadPlatformServiceImpl implements CountryCurrencyReadPlatformService {
+public class CurrencyExchangeReadPlatformServiceImpl implements CurrencyExchangeReadPlatformService {
 
 	private final JdbcTemplate jdbcTemplate;
 
 	@Autowired
-	public CountryCurrencyReadPlatformServiceImpl(final TenantAwareRoutingDataSource dataSource) {
+	public CurrencyExchangeReadPlatformServiceImpl(final TenantAwareRoutingDataSource dataSource) {
 
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 
@@ -36,7 +36,7 @@ public class CountryCurrencyReadPlatformServiceImpl implements CountryCurrencyRe
 	 * @see #getCountryCurrencyDetailsByName(java.lang.String)
 	 */
 	@Override
-	public List<CountryCurrencyData> getCountryCurrencyDetailsByName(final String country) {
+	public List<CurrencyExchangeData> getCountryCurrencyDetailsByName(final String country) {
 
 		try {
 			final CurrencyMapper mapper = new CurrencyMapper();
@@ -48,16 +48,16 @@ public class CountryCurrencyReadPlatformServiceImpl implements CountryCurrencyRe
 	}
 
 	private static final class CurrencyMapper implements
-			RowMapper<CountryCurrencyData> {
+			RowMapper<CurrencyExchangeData> {
 
 		public String schema() {
 			return "  c.id as id,c.country as country,c.currency as currency,c.status as status,c.base_currency as baseCurrency, "
-					+ "  c.conversion_rate as conversionRate, c.country_isd as countryISD  FROM b_country_currency c ";
+					+ "  c.conversion_rate as conversionRate, c.country_isd as countryISD  FROM b_currency_exchange c ";
 
 		}
 
 		@Override
-		public CountryCurrencyData mapRow(final ResultSet rs, final int rowNum)
+		public CurrencyExchangeData mapRow(final ResultSet rs, final int rowNum)
 				throws SQLException {
 
 			final Long id = rs.getLong("id");
@@ -68,7 +68,7 @@ public class CountryCurrencyReadPlatformServiceImpl implements CountryCurrencyRe
 			final BigDecimal conversionRate = rs.getBigDecimal("conversionRate");
 			final String countryISD = rs.getString("countryISD");
 
-			return new CountryCurrencyData(id, country, currency, baseCurrency,conversionRate, status, countryISD);
+			return new CurrencyExchangeData(id, country, currency, baseCurrency,conversionRate, status, countryISD);
 		}
 	}
 
@@ -78,7 +78,7 @@ public class CountryCurrencyReadPlatformServiceImpl implements CountryCurrencyRe
 	 * @see #retrieveAllCurrencyConfigurationDetails()
 	 */
 	@Override
-	public Collection<CountryCurrencyData> retrieveAllCurrencyConfigurationDetails() {
+	public Collection<CurrencyExchangeData> retrieveAllCurrencyConfigurationDetails() {
 
 		try {
 
@@ -96,7 +96,7 @@ public class CountryCurrencyReadPlatformServiceImpl implements CountryCurrencyRe
 	 * @see #retrieveSingleCurrencyConfigurationDetails(java.lang.Long)
 	 */
 	@Override
-	public CountryCurrencyData retrieveSingleCurrencyConfigurationDetails(final Long currencyId) {
+	public CurrencyExchangeData retrieveSingleCurrencyConfigurationDetails(final Long currencyId) {
 		try {
 			final CurrencyMapper mapper = new CurrencyMapper();
 			final String sql = "select " + mapper.schema() + " WHERE  c.is_deleted='N' and c.id=?";

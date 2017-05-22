@@ -1,4 +1,4 @@
-package org.mifosplatform.billing.currency.exception;
+package org.mifosplatform.billing.currencyexchange.exception;
 
 import org.mifosplatform.infrastructure.core.exception.AbstractPlatformDomainRuleException;
 

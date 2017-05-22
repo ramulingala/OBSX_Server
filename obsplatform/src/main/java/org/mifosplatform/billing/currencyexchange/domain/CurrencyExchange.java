@@ -1,4 +1,4 @@
-package org.mifosplatform.billing.currency.domain;
+package org.mifosplatform.billing.currencyexchange.domain;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
@@ -19,8 +19,8 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
  *         this class help to interact with data table 'b_country_currency'
  */
 @Entity
-@Table(name = "b_country_currency", uniqueConstraints = @UniqueConstraint(name = "country_key", columnNames = { "country" }))
-public class CountryCurrency extends AbstractPersistable<Long> {
+@Table(name = "b_currency_exchange", uniqueConstraints = @UniqueConstraint(name = "country_key", columnNames = { "country" }))
+public class CurrencyExchange extends AbstractPersistable<Long> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -45,10 +45,10 @@ public class CountryCurrency extends AbstractPersistable<Long> {
 	@Column(name = "country_isd")
 	private String countryISD;
 
-	public CountryCurrency() {
+	public CurrencyExchange() {
 	}
 
-	public CountryCurrency(final String country, final String currency,
+	public CurrencyExchange(final String country, final String currency,
 			final String basecurrency, final BigDecimal conversionRate,
 			final String status, String countryISD)
 
@@ -142,7 +142,7 @@ public class CountryCurrency extends AbstractPersistable<Long> {
 	 * @param command
 	 * @return CountryCurrency
 	 */
-	public static CountryCurrency fromJson(final JsonCommand command) {
+	public static CurrencyExchange fromJson(final JsonCommand command) {
 
 		final String country = command.stringValueOfParameterNamed("country");
 		final String currency = command.stringValueOfParameterNamed("currency");
@@ -153,7 +153,7 @@ public class CountryCurrency extends AbstractPersistable<Long> {
 				.bigDecimalValueOfParameterNamed("conversionRate");
 		final String countryISD = command.stringValueOfParameterNamed("countryISD");
 		
-		return new CountryCurrency(country, currency, baseCurrency,
+		return new CurrencyExchange(country, currency, baseCurrency,
 				conversionRate, status, countryISD);
 
 	}

@@ -10,6 +10,10 @@ import org.mifosplatform.infrastructure.core.data.CommandProcessingResult;
 
 public interface CurrencyWritePlatformService {
 
+	CommandProcessingResult createAllowedCurrencies(JsonCommand command);
+	
 	CommandProcessingResult updateAllowedCurrencies(JsonCommand command);
+	
+	CommandProcessingResult deleteAllowedCurrencies(JsonCommand command);
 
 }

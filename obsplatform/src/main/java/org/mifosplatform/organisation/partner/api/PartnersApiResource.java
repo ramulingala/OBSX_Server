@@ -21,8 +21,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang.StringUtils;
-import org.mifosplatform.billing.currency.data.CountryCurrencyData;
-import org.mifosplatform.billing.currency.service.CountryCurrencyReadPlatformService;
+import org.mifosplatform.billing.currencyexchange.data.CurrencyExchangeData;
+import org.mifosplatform.billing.currencyexchange.service.CurrencyExchangeReadPlatformService;
 import org.mifosplatform.commands.domain.CommandWrapper;
 import org.mifosplatform.commands.service.CommandWrapperBuilder;
 import org.mifosplatform.commands.service.PortfolioCommandSourceWritePlatformService;
@@ -77,7 +77,7 @@ public class PartnersApiResource {
    private final PartnersReadPlatformService readPlatformService;
    private final OfficeReadPlatformService officereadPlatformService;
    private final OrganisationCurrencyReadPlatformService currencyReadPlatformService;
-   private final CountryCurrencyReadPlatformService countryCurrencyReadPlatformService;
+   private final CurrencyExchangeReadPlatformService currencyExchangeReadPlatformService;
    private final CodeValueReadPlatformService codeValueReadPlatformService;
    private final PartnersWritePlatformService partnersWritePlatformService;
  
@@ -88,7 +88,7 @@ public class PartnersApiResource {
 			final AddressReadPlatformService addressReadPlatformService,final PartnersReadPlatformService readPlatformService,
 			final OrganisationCurrencyReadPlatformService currencyReadPlatformService,final OfficeReadPlatformService officereadPlatformService,
 			final CodeValueReadPlatformService codeValueReadPlatformService,final PartnersWritePlatformService partnersWritePlatformService,
-	        final CountryCurrencyReadPlatformService countryCurrencyReadPlatformService){
+	        final CurrencyExchangeReadPlatformService currencyExchangeReadPlatformService){
 	  
             this.context = context;
             this.toApiJsonSerializer = toApiJsonSerializer;
@@ -100,7 +100,7 @@ public class PartnersApiResource {
 	        this.officereadPlatformService = officereadPlatformService;
 	        this.codeValueReadPlatformService = codeValueReadPlatformService;
 	        this.partnersWritePlatformService = partnersWritePlatformService;
-	        this.countryCurrencyReadPlatformService = countryCurrencyReadPlatformService;
+	        this.currencyExchangeReadPlatformService = currencyExchangeReadPlatformService;
 	      
 
 	}
@@ -128,7 +128,7 @@ public class PartnersApiResource {
 		final List<String> citiesData = this.addressReadPlatformService.retrieveCityDetails();
 	    final Collection<CodeValueData> officeTypes=this.codeValueReadPlatformService.retrieveCodeValuesByCode(OFFICE_TYPE);
 		final ApplicationCurrencyConfigurationData currencyData = this.currencyReadPlatformService.retrieveCurrencyConfiguration();
-		final Collection<CountryCurrencyData> configCurrency = this.countryCurrencyReadPlatformService.retrieveAllCurrencyConfigurationDetails();
+		final Collection<CurrencyExchangeData> configCurrency = this.currencyExchangeReadPlatformService.retrieveAllCurrencyConfigurationDetails();
 		final Collection<OfficeData> allowedParents = this.officereadPlatformService.retrieveAllOfficesForDropdown();
 		return new PartnersData(countryData,statesData,citiesData,officeTypes,currencyData,allowedParents,configCurrency);
 	}
@@ -186,7 +186,7 @@ public class PartnersApiResource {
     	    partner.setOfficeTypes(this.codeValueReadPlatformService.retrieveCodeValuesByCode(OFFICE_TYPE));
     	    partner.setCurrencyData(this.currencyReadPlatformService.retrieveCurrencyConfiguration());
     	    partner.setAllowedParents(this.officereadPlatformService.retrieveAllOfficesForDropdown());
-        	partner.setConfigCurrency(this.countryCurrencyReadPlatformService.retrieveAllCurrencyConfigurationDetails());
+        	partner.setConfigCurrency(this.currencyExchangeReadPlatformService.retrieveAllCurrencyConfigurationDetails());
         }
         return this.toApiJsonSerializer.serialize(settings, partner, RESPONSE_DATA_PARAMETERS);
     }

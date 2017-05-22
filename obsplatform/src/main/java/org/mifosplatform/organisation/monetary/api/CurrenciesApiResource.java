@@ -10,7 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -72,6 +74,16 @@ public class CurrenciesApiResource {
 		final ApiRequestJsonSerializationSettings settings = apiRequestParameterHelper.process(uriInfo.getQueryParameters());
 		return this.toApiJsonSerializer.serialize(settings, configurationData, RESPONSE_DATA_PARAMETERS);
 	}
+	
+	@POST
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_JSON })
+	public String createCurrencies(final String apiRequestBodyAsJson) {
+		
+		final CommandWrapper commandRequest = new CommandWrapperBuilder().createCurrency().withJson(apiRequestBodyAsJson).build();
+		final CommandProcessingResult result = this.commandsSourceWritePlatformService.logCommandSource(commandRequest);
+		return this.toApiJsonSerializer.serialize(result);
+	}
 
 	@PUT
 	@Consumes({ MediaType.APPLICATION_JSON })
@@ -79,6 +91,16 @@ public class CurrenciesApiResource {
 	public String updateCurrencies(final String apiRequestBodyAsJson) {
 		
 		final CommandWrapper commandRequest = new CommandWrapperBuilder().updateCurrency().withJson(apiRequestBodyAsJson).build();
+		final CommandProcessingResult result = this.commandsSourceWritePlatformService.logCommandSource(commandRequest);
+		return this.toApiJsonSerializer.serialize(result);
+	}
+	
+	@DELETE
+	@Consumes({ MediaType.APPLICATION_JSON })
+	@Produces({ MediaType.APPLICATION_JSON })
+	public String deleteCurrencies(final String apiRequestBodyAsJson) {
+		
+		final CommandWrapper commandRequest = new CommandWrapperBuilder().deleteCurrency().withJson(apiRequestBodyAsJson).build();
 		final CommandProcessingResult result = this.commandsSourceWritePlatformService.logCommandSource(commandRequest);
 		return this.toApiJsonSerializer.serialize(result);
 	}

@@ -274,7 +274,15 @@ public class SynchronousCommandProcessingService implements CommandProcessingSer
 				throw new UnsupportedCommandException(wrapper.commandName());
 			}
 		} else if (wrapper.isCurrencyResource()) {
-			handler = applicationContext.getBean("updateCurrencyCommandHandler",NewCommandSourceHandler.class);
+			if (wrapper.isCreate()){
+			    handler = applicationContext.getBean("createCurrencyCommandHandler",NewCommandSourceHandler.class);
+			} else if (wrapper.isUpdate()){
+				handler = applicationContext.getBean("updateCurrencyCommandHandler",NewCommandSourceHandler.class);
+			} else if (wrapper.isDelete()){
+				handler = applicationContext.getBean("deleteCurrencyCommandHandler",NewCommandSourceHandler.class);
+			} else {
+				throw new UnsupportedCommandException(wrapper.commandName());
+			}
 		} else if (wrapper.isFundResource()) {
 			if (wrapper.isCreate()) {
 				handler = applicationContext.getBean("createFundCommandHandler",NewCommandSourceHandler.class);
@@ -842,11 +850,11 @@ public class SynchronousCommandProcessingService implements CommandProcessingSer
 					    }
 			}else if (wrapper.isCountryCurrencyResource()) {
 						if(wrapper.isCreate()){
-							handler = applicationContext.getBean("createCountryCurrencyCommandHandler",NewCommandSourceHandler.class);
+							handler = applicationContext.getBean("createCurrencyExchangeCommandHandler",NewCommandSourceHandler.class);
 						}if(wrapper.isUpdateCurrencyConfig()){
-							handler = applicationContext.getBean("updateCountryCurrencyCommandHandler",NewCommandSourceHandler.class);
+							handler = applicationContext.getBean("updateCurrencyExchangeCommandHandler",NewCommandSourceHandler.class);
 						} if(wrapper.isDeleteCurrencyConfig()){
-							handler =applicationContext.getBean("deleteCountryCurrencyCommandHandler",NewCommandSourceHandler.class);
+							handler =applicationContext.getBean("deleteCurrencyExchangeCommandHandler",NewCommandSourceHandler.class);
 						} 
 			}else if(wrapper.isEpgProgramGuide()){
 				    	   if(wrapper.isCreate()){
